@@ -1,0 +1,12 @@
+---
+- name: Setup Kubernetes Cluster
+  hosts: k8n_control_plane
+  tasks:
+    - name: Setup database
+      block:
+      - name: Upload manifest for frontend
+        ansible.builtin.template:
+          src: ./templates/back-and-front/deploy-frontend.yaml
+          dest: /home/ubuntu/deploy-frontend.yaml
+      - name: Apply manifest for frontend
+        ansible.builtin.command: kubectl apply -f /home/ubuntu/deploy-frontend.yaml

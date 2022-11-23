@@ -1,0 +1,26 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: centos
+  labels:
+    app: cm-test
+spec:
+  containers:
+    - name: centos
+      image: centos:7
+      command: [ "/bin/bash", "-c", "--" ] # To prevent pod reaching state "Completed" we do everlasting loop.
+      args: [ "while true; do sleep 30; done;" ]
+      volumeMounts:
+        - mountPath: /configMap
+          name: config-volume
+      env:
+        - name: MY_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: centos-cm
+              key: myKey2
+  volumes:
+    - name: config-volume
+      configMap:
+        name: centos-cm
