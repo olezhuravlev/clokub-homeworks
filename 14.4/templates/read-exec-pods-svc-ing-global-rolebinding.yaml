@@ -1,0 +1,14 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  namespace: infra-sec
+  name: vasya-read-exec-pods-svc-ing-global-rolebinding
+subjects:
+  - kind: User
+    name: system:serviceaccount:infra-sec:vasya # Service account to bind role to. Case-sensitive!
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: read-exec-pods-svc-ing-global # Role to bind to service account.
+  apiGroup: rbac.authorization.k8s.io

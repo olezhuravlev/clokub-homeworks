@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  creationTimestamp: "2022-12-02T07:15:26Z"
+  name: netology2
+  namespace: infra-sec
+  resourceVersion: "373601"
+  uid: f29d895b-b2d5-4694-b525-c5873b4fc37e

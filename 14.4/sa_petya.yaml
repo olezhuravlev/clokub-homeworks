@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: petya-token
+  annotations:
+    kubernetes.io/service-account.name: petya
+type: kubernetes.io/service-account-token

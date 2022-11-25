@@ -1,0 +1,10 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: centos-cm
+  labels:
+    app: cm-test
+data:
+  myKey1: myValue1
+  myKey2: myValue2

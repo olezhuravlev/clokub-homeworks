@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vasya-token
+  annotations:
+    kubernetes.io/service-account.name: vasya
+type: kubernetes.io/service-account-token
