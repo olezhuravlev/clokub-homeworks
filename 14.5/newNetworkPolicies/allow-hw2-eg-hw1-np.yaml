@@ -1,0 +1,31 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-hw2-eg-hw1
+  namespace: ns-1
+spec:
+  podSelector:
+    matchLabels:
+      app: hworld-2
+  policyTypes:
+    - Egress
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          nsName: ns-1
+      podSelector:
+        matchLabels:
+          app: hworld-1
+    ports:
+      - protocol: TCP
+        port: 80
+  - to:
+      - ipBlock:
+          cidr: 169.254.25.10/32
+    ports:
+      - protocol: UDP
+        port: 53
+      - protocol: TCP
+        port: 53

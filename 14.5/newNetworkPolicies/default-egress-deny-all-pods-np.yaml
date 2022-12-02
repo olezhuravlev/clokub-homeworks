@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-egress-deny-all-pods
+  namespace: ns-1
+spec:
+  podSelector: { }
+  policyTypes:
+    - Egress
+  # egress: [ ]
+  egress: # Allow cluster DNS-service only.
+    - to:
+#        - podSelector:
+#            matchLabels:
+#              k8s-app: kube-dns
+#        - namespaceSelector:
+#            matchLabels:
+#              name: kube-system
+        - ipBlock:
+            cidr: 169.254.25.10/32
+      ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
