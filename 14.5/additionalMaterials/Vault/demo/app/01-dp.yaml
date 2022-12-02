@@ -1,0 +1,94 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vault-approle-demo
+  labels:
+    role: vault-approle-demo
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      role: vault-approle-demo
+  template:
+    metadata:
+      labels:
+        role: vault-approle-demo
+    spec:
+      shareProcessNamespace: true
+      initContainers:
+        - name: init-app-config
+          image: vault:1.9.0
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            runAsUser: 10001
+            runAsNonRoot: true
+            capabilities:
+              add:
+                - IPC_LOCK
+          args:
+            - "agent"
+            - "-config=/etc/vault/config/vault-agent.hcl"
+          env:
+            - name: SKIP_SETCAP
+              value: 'true'
+          volumeMounts:
+            - mountPath: /etc/vault/config
+              name: vault-config
+            - mountPath: /etc/vault/config/approle
+              name: approle-config
+      containers:
+        - name: shell
+          image: busybox
+          securityContext:
+            capabilities:
+              add:
+                - SYS_PTRACE
+          stdin: true
+          tty: true
+          volumeMounts:
+            - mountPath: /app/config
+              name: approle-config
+        - name: go-vault-approle
+          image: registry.gitlab.com/k11s-os/vault-approle-auth:718a4c6c
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            runAsUser: 10001
+            runAsNonRoot: true
+            capabilities:
+              add:
+                - SYS_PTRACE
+          env:
+            - name: APPROLE_ROLE_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: vault-agent-config
+                  key: app-role-id
+            - name: APPROLE_WRAPPEN_TOKEN_FILE
+              value: /app/config/wrapped_token
+            - name: APPROLE_UNWRAPPEN_TOKEN_FILE
+              value: /app/config/unwrapped_token
+            - name: APPROLE_VAULT_ADDR
+              value: http://vault:8200
+            - name: APPROLE_SECRET_PATH
+              value: secrets/data/k11s/demo/app/service
+          command:
+            - /app/vaultauth
+          volumeMounts:
+            - mountPath: /app/config
+              name: approle-config
+          resources:
+            requests:
+              cpu: "0.2"
+              memory: "200Mi"
+            limits:
+              cpu: "0.5"
+              memory: "500Mi"
+      volumes:
+        - name: vault-config
+          configMap:
+            name: vault-agent-config
+        - name: approle-config
+          emptyDir:
+            medium: Memory

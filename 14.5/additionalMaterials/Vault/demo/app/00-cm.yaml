@@ -1,0 +1,41 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vault-agent-config
+data:
+  vault-agent.hcl: |
+    pid_file = "/tmp/.pidfile"
+
+    auto_auth {
+      mount_path = "auth/approle"
+      method "approle" {
+        config = {
+          role_id_file_path = "/etc/vault/config/app-role-id"
+        }
+      }
+
+      sink {
+          type = "file"
+          wrap_ttl = "3m"
+          config = {
+            path = "/etc/vault/config/approle/wrapped_token"
+            mode = 0777
+          }
+        }
+
+      sink {
+        type = "file"
+        config = {
+          path = "/etc/vault/config/approle/unwrapped_token"
+          mode = 0777
+          }
+        }
+    }
+
+    vault {
+      address = "http://vault:8200"
+    }
+    exit_after_auth = true
+  app-role-id: |
+    6d557212-545b-a589-427b-f691cc75acfd
