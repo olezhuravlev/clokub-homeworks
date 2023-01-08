@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nlb
+  namespace: default
+  labels:
+    app: "neto15_4"
+    component: mysql
+spec:
+  selector:
+    app: "neto15_4"
+    component: mysql
+  ports:
+    - port: 80
+      name: nlb-port
+      targetPort: 80
+  type: LoadBalancer
