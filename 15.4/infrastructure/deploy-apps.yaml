@@ -1,0 +1,52 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phpmyadmin
+  namespace: default
+  labels:
+    app: "neto15_4"
+    component: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "neto15_4"
+      component: mysql
+  template:
+    metadata:
+      labels:
+        app: "neto15_4"
+        component: mysql
+    spec:
+      containers:
+        - name: phpmyadmin
+          image: phpmyadmin:5.2.0
+          ports:
+            - name: phpmyadmin-port
+              containerPort: 80
+              protocol: TCP
+          env:
+            - name: PMA_ARBITRARY
+              value: "1"
+#---
+## NodePort: Exposes the Service on each Node's IP at a static port.
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  name: phpmyadmin-svc
+#  namespace: default
+#  labels:
+#    app: "neto15_4"
+#    component: mysql
+#spec:
+#  type: NodePort
+#  selector:
+#    app: "neto15_4"
+#    component: mysql
+#  ports:
+#    - name: phpmyadmin-nodeport
+#      protocol: TCP
+#      nodePort: 30000 # Port to apply from outside (to see ips - 'kubectl get nodes -o wide').
+#      port: 80 # Port to apply from inside (to see ips - 'kubectl get svc').
+#      targetPort: phpmyadmin-port # Port to map access to (to see ips - 'kubectl get pods -o wide')
