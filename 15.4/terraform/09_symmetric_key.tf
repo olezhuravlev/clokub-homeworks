@@ -1,4 +1,4 @@
-## KMS symmetric key to cypher data in Storage Bucket.
+## KMS symmetric key to cypher data in Kubernetes cluster.
 #resource "yandex_kms_symmetric_key" "key-a" {
 #  folder_id         = yandex_resourcemanager_folder.application-folder.id
 #  name              = "symmetric-key"
