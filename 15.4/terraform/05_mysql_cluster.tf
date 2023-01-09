@@ -36,12 +36,12 @@ resource "yandex_mdb_mysql_cluster" "mysql-cluster" {
 
   host {
     zone      = var.yandex-cloud-zone1
-    subnet_id = yandex_vpc_subnet.vpc-subnet1.id
+    subnet_id = yandex_vpc_subnet.vpc-subnet-private1.id
   }
 
   host {
     zone      = var.yandex-cloud-zone2
-    subnet_id = yandex_vpc_subnet.vpc-subnet2.id
+    subnet_id = yandex_vpc_subnet.vpc-subnet-private2.id
   }
 }
 
