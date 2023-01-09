@@ -16,6 +16,6 @@ provider "yandex" {
 
 # Create folder.
 resource "yandex_resourcemanager_folder" "application-folder" {
-  cloud_id    = var.yandex-cloud-id
-  name        = "application-folder"
+  cloud_id = var.yandex-cloud-id
+  name     = "application-folder"
 }
