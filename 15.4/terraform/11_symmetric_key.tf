@@ -10,10 +10,10 @@ resource "yandex_kms_symmetric_key" "key-a" {
   }
 }
 
-#resource "yandex_kms_symmetric_key_iam_binding" "viewer" {
-#  symmetric_key_id = yandex_kms_symmetric_key.key-a.id
-#  role             = "viewer"
-#  members          = [
-#    "serviceAccount:${yandex_iam_service_account.kuber-cluster-service-account.id}",
-#  ]
-#}
+resource "yandex_kms_symmetric_key_iam_binding" "viewer" {
+  symmetric_key_id = yandex_kms_symmetric_key.key-a.id
+  role             = "viewer"
+  members          = [
+    "serviceAccount:${yandex_iam_service_account.kuber-cluster-service-account.id}",
+  ]
+}

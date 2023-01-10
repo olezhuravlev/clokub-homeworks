@@ -25,21 +25,3 @@ resource "yandex_resourcemanager_folder_iam_member" "kuber-nodes-service-account
   member    = "serviceAccount:${yandex_iam_service_account.kuber-nodes-service-account.id}"
   role      = "container-registry.images.puller"
 }
-
-#resource "yandex_resourcemanager_folder_iam_binding" "editor" {
-#  # Сервисному аккаунту назначается роль "editor".
-#  folder_id = "<идентификатор каталога>"
-#  role      = "editor"
-#  members   = [
-#    "serviceAccount:${yandex_iam_service_account.<имя сервисного аккаунта>.id}"
-#  ]
-#}
-#
-#resource "yandex_resourcemanager_folder_iam_binding" "images-puller" {
-#  # Сервисному аккаунту назначается роль "container-registry.images.puller".
-#  folder_id = "<идентификатор каталога>"
-#  role      = "container-registry.images.puller"
-#  members   = [
-#    "serviceAccount:${yandex_iam_service_account.<имя сервисного аккаунта>.id}"
-#  ]
-#}

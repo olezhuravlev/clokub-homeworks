@@ -17,12 +17,7 @@ resource "yandex_kubernetes_node_group" "node-group" {
     network_interface {
       nat        = true
       subnet_ids = [
-        yandex_vpc_subnet.vpc-subnet-private1.id#,
-#        yandex_vpc_subnet.vpc-subnet-private2.id,
-#        yandex_vpc_subnet.vpc-subnet-private3.id,
-#        yandex_vpc_subnet.vpc-subnet-public1.id,
-#        yandex_vpc_subnet.vpc-subnet-public2.id,
-#        yandex_vpc_subnet.vpc-subnet-public3.id
+        yandex_vpc_subnet.vpc-subnet-private1.id
       ]
       security_group_ids = [
         yandex_vpc_security_group.k8s-main-sg.id,
