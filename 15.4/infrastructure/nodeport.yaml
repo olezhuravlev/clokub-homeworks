@@ -18,4 +18,3 @@ spec:
       protocol: TCP
       nodePort: 30000 # Port to apply from outside (to see ips - 'kubectl get nodes -o wide').
       port: 80 # Port to apply from inside (to see ips - 'kubectl get svc').
-      #targetPort: phpmyadmin-port # Port to map acces to (to see ips - 'kubectl get pods -o wide')
